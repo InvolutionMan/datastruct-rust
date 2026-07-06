@@ -42,6 +42,7 @@ impl<T> LinkList<T> {
                     //ref  借可变引用
                     current = next;
                 }
+                current.next=Some(new_node);
             }
         }
         self.size += 1;
