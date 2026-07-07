@@ -48,10 +48,39 @@ impl<T> LinkList<T> {
         self.size += 1;
     }
     // 打印链表
+    fn print_list(&self) where T:std::fmt::Display
+    {
+      let mut temp=&self.head;
+      while let Some(node)=temp{
+        print!("{}->",node.value);
+        temp=&node.next;
+      }
+      println!("None");
+      println!("链表的长度为{}",&self.size);
+    }
     // 反转链表
+    fn reverselist (&mut self) 
+    {
+        let mut prev=None;
+        let mut current=self.head.take();
+        while let Some(mut node)=current
+        {
+          let next=node.next.take();
+          node.next=prev;
+          prev=Some(node);
+          current=next
+        }
+        self.head=prev;
+    }
     // 按值查找
     // 按索引查找
     // 插入节点
+    
 }
 
-fn main() {}
+fn main() {
+  let mut list=LinkList::new();
+  list.push_front(1);
+  list.push_tail(2);
+  list.print_list();
+}
