@@ -109,7 +109,6 @@ impl<T> LinkList<T> {
     //通过值删除节点
     fn delete_node_by_value(&mut self,value: &T) ->bool where T:PartialEq
     {  
-      let mut current=&mut self.head;
       if let Some(node)=self.head.as_ref() //as_ref 不可变引用
       {
         if node.value==*value
@@ -119,6 +118,7 @@ impl<T> LinkList<T> {
           return true;
         }
       }
+      let mut current=&mut self.head;
       while let Some(node)=current.as_mut() // as_mut可变引用
       {
         if let Some(next_node)=node.next.as_ref()
