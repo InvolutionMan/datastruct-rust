@@ -1,12 +1,26 @@
-use std::vec;
+use std::{collections::hash_map::Values, vec};
 
 #[derive(Debug)]
-pub struct stack<T> {
-    data: vec<T>,
+struct stack<T> 
+{
+    data: Vec<T>,
 }
-impl<T> stack<T> {
-    pub fn new() -> Self {
+impl<T> stack<T> 
+{
+    fn new() -> Self 
+    {
         stack { data: Vec::new() }
     }
+    fn push(&mut self,value:T) 
+    {
+      self.data.push(value);
+    }
+    fn pop(&mut self) 
+    {
+      self.data.pop();
+    }
+    
 }
+
+
 fn main() {}
