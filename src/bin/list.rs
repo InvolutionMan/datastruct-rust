@@ -136,6 +136,34 @@ impl<T> LinkList<T> {
       return false;
     }
     //通过索引删除节点
+    fn delete_node_by_index(&mut self,index:usize) where T:PartialEq
+    {
+        if self.head.is_none()
+        {
+          println!("链表为空");
+        }
+        if index==0
+        {
+          self.head=self.head.take().unwrap().next;
+          self.size-=1;
+        }
+        let mut i=0;
+        let mut current=&mut self.head;
+        while let Some( node)=current
+        {
+            if i==index
+            {
+              if let Some(next_node)=node.next.take()
+              {
+                node.next=next_node.next;
+                self.size-=1;
+              }
+            }
+            current=&mut node.next;
+            i+=1;
+        }
+        println!("超出索引范围");
+    }
 }
 
 fn main() {
