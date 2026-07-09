@@ -61,117 +61,110 @@ impl<T> LinkList<T> {
         println!("链表的长度为{}", &self.size);
     }
     // 反转链表
-    fn reverselist (&mut self) where T:std::fmt::Display
+    fn reverselist(&mut self)
+    where
+        T: std::fmt::Display,
     {
-        let mut prev=None;
-        let mut current=self.head.take();
-        while let Some(mut node)=current
-        {
-          let next=node.next.take();
-          node.next=prev;
-          prev=Some(node);
-          current=next;
+        let mut prev = None;
+        let mut current = self.head.take();
+        while let Some(mut node) = current {
+            let next = node.next.take();
+            node.next = prev;
+            prev = Some(node);
+            current = next;
         }
-        self.head=prev;
-        
+        self.head = prev;
     }
     // 按值查找
-    fn find_by_value(&self,value: T) ->bool
-    where T:PartialEq,
+    fn find_by_value(&self, value: T) -> bool
+    where
+        T: PartialEq,
     {
-      let mut current=&self.head;
-      while let Some(mut node) =current.as_ref() 
-      {
-          if node.value==value
-          {
-            return true;
-          }
-          current=&node.next;
-      }
-      return false;
+        let mut current = &self.head;
+        while let Some(mut node) = current.as_ref() {
+            if node.value == value {
+                return true;
+            }
+            current = &node.next;
+        }
+        return false;
     }
     // 按索引查找
-    fn find_by_index(&self,index:usize) ->bool
-    {
-      let mut current=&self.head;
-      let mut i=0;
-      while let Some(node) =current   
-      {
-          if i==index
-          {
-            return true;
-          }
-          current=&node.next;
-          i+=1;
-      }
-      return false;
+    fn find_by_index(&self, index: usize) -> bool {
+        let mut current = &self.head;
+        let mut i = 0;
+        while let Some(node) = current {
+            if i == index {
+                return true;
+            }
+            current = &node.next;
+            i += 1;
+        }
+        return false;
     }
     //通过值删除节点
-    fn delete_node_by_value(&mut self,value: &T) ->bool where T:PartialEq
-    {  
-      if let Some(node)=self.head.as_ref() //as_ref 不可变引用
-      {
-        if node.value==*value
+    fn delete_node_by_value(&mut self, value: &T) -> bool
+    where
+        T: PartialEq,
+    {
+        if let Some(node) = self.head.as_ref()
+        //as_ref 不可变引用
         {
-          self.head = self.head.take().unwrap().next;
-          self.size-=1;
-          return true;
+            if node.value == *value {
+                self.head = self.head.take().unwrap().next;
+                self.size -= 1;
+                return true;
+            }
         }
-      }
-      let mut current=&mut self.head;
-      while let Some(node)=current.as_mut() // as_mut可变引用
-      {
-        if let Some(next_node)=node.next.as_ref()
+        let mut current = &mut self.head;
+        while let Some(node) = current.as_mut()
+        // as_mut可变引用
         {
-          if next_node.value==*value
-          {
-            let mut remove=node.next.take().unwrap();
-            node.next=remove.next;
-            self.size-=1;
-            return true;
-          }
+            if let Some(next_node) = node.next.as_ref() {
+                if next_node.value == *value {
+                    let mut remove = node.next.take().unwrap();
+                    node.next = remove.next;
+                    self.size -= 1;
+                    return true;
+                }
+            }
+            current = &mut node.next;
         }
-        current=&mut node.next;
-      }
-      return false;
+        return false;
     }
     //通过索引删除节点
-    fn delete_node_by_index(&mut self,index:usize) where T:PartialEq
+    fn delete_node_by_index(&mut self, index: usize)
+    where
+        T: PartialEq,
     {
-        if self.head.is_none()
-        {
-          println!("链表为空");
+        if self.head.is_none() {
+            println!("链表为空");
         }
-        if index==0
-        {
-          self.head=self.head.take().unwrap().next;
-          self.size-=1;
+        if index == 0 {
+            self.head = self.head.take().unwrap().next;
+            self.size -= 1;
         }
-        let mut i=0;
-        let mut current=&mut self.head;
-        while let Some( node)=current
-        {
-            if i==index
-            {
-              if let Some(next_node)=node.next.take()
-              {
-                node.next=next_node.next;
-                self.size-=1;
-              }
+        let mut i = 0;
+        let mut current = &mut self.head;
+        while let Some(node) = current {
+            if i == index {
+                if let Some(next_node) = node.next.take() {
+                    node.next = next_node.next;
+                    self.size -= 1;
+                }
             }
-            current=&mut node.next;
-            i+=1;
+            current = &mut node.next;
+            i += 1;
         }
         println!("超出索引范围");
     }
 }
 
 fn main() {
-  let mut list=LinkList::new();
-  list.push_front(1);
-  list.push_tail(2);
-  list.print_list();
-  println!("是否找到节点，{}",list.find_by_value(1));
-  println!("是否找到节点，{}",list.find_by_index(1));
-  
+    let mut list = LinkList::new();
+    list.push_front(1);
+    list.push_tail(2);
+    list.print_list();
+    println!("是否找到节点，{}", list.find_by_value(1));
+    println!("是否找到节点，{}", list.find_by_index(1));
 }
